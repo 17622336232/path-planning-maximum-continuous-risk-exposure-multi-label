@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="index,follow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quadrotor Path Timing Notes</title>
+<meta name="description" content="A quadrotor trajectory describes both where the vehicle travels and when it reaches each point. This note explains geometric paths, time parameterization and trajectory optimization for flight through constrained space, with links to published robotics methods.">
+
+<style>
+:root {color-scheme: light; --paper: #fbfaf7; --ink: #182525; --accent: #1e655b;}
+body {margin:0;background:var(--paper);color:var(--ink);font:18px/1.67 system-ui,sans-serif;}
+main {max-width:44rem;margin:auto;padding:5rem clamp(1.3rem,6vw,3.6rem);}
+header {border-bottom:1px solid #b6c7bf;margin-bottom:2.5rem;padding-bottom:1.3rem;}
+h1,h2 {font-family:Georgia,serif;line-height:1.18;}
+h1 {font-size:clamp(2.35rem,7vw,3.8rem);margin:0 0 1.3rem;}
+h2 {font-size:1.65rem;margin:2.3rem 0 .7rem;}
+header p {font-size:1.12em;}
+a {color:var(--accent);text-underline-offset:.17em;}
+li {margin-bottom:.7rem;}
+</style>
+<link rel="canonical" href="https://17622336232.github.io/quadrotor-path-timing-notes/">
+</head>
+<body>
+<main>
+<header><h1>Quadrotor Path Timing Notes</h1><p>A quadrotor trajectory describes both where the vehicle travels and when it reaches each point. This note explains geometric paths, time parameterization and trajectory optimization for flight through constrained space, with links to published robotics methods.</p></header>
+<section id="geometry"><h2>Path geometry and free space</h2><p>A path p(s) specifies a curve in space using an ordered parameter s. Collision checking compares the curve and the vehicle footprint against the environment model. A safe corridor bounds the region in which a trajectory can be planned. Its construction and the collision model determine how much clearance the constraints provide.</p><p>A path through a narrow opening can be geometrically feasible even when some ways of traversing it demand more acceleration than the vehicle can produce. The time assigned to the maneuver is therefore part of evaluating the executable flight.</p></section>
+<section id="timing"><h2>Time parameterization</h2><p>A time law s(t) turns a geometric path into a trajectory p(s(t)). Velocity is the path tangent multiplied by the rate of progress. Acceleration has contributions from changing progress rate and from bending along the path. A fixed curve can support different speeds at different positions under the same acceleration limits.</p><p>Pham and Pham use reachability analysis to compute controllable and reachable sets along a discretized path. Their work illustrates time optimal path parameterization with a prescribed geometric path.</p></section>
+<section id="optimization"><h2>Spatial and temporal trajectory optimization</h2><p>A trajectory optimizer can vary spatial parameters and segment durations together. Changing the shape can improve clearance or reduce curvature. Changing durations alters the time derivatives used to check velocity, acceleration and other dynamic constraints. The optimizer needs a model of the free space and the relevant vehicle constraints.</p><p>Wang and colleagues present a multicopter framework that uses a compact trajectory representation with spatial and temporal variation. Their formulation supports geometric conditions and several types of dynamic constraints.</p></section>
+<section id="evaluation"><h2>Comparing planning methods</h2><p>An evaluation can report feasibility and clearance alongside travel time and solve time. Per-segment timing, speed and acceleration help explain behavior around constrained regions. A reproducible comparison records the collision model, input map, physical bounds, hardware and the definition of success.</p><p>Planning benchmarks vary in environment geometry and initial conditions. Using the same cases for competing methods helps readers interpret how path selection and time allocation affect each result.</p></section>
+<section><h2>References</h2><ol><li><a href="https://arxiv.org/abs/1707.07239">H. Pham and Q.-C. Pham, A New Approach to Time-Optimal Path Parameterization based on Reachability Analysis</a></li><li><a href="https://arxiv.org/abs/2103.00190">Z. Wang, X. Zhou, C. Xu and F. Gao, Geometrically Constrained Trajectory Optimization for Multicopters</a></li></ol></section>
+</main>
+</body>
+</html>
