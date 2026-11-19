@@ -1,6 +1,14 @@
-# Continuous Risk Exposure in UAV Path Planning
+# Multi-Label Path Planning to Minimize Maximum Continuous Risk Exposure
 
-Trajectory timing changes how long a quadrotor spends in risk zones along its path. These notes explain how time parameterization affects total risk exposure and the longest continuous exposure in risk-aware motion planning.
+A multi-label path planner can minimize the maximum continuous risk exposure along a route. Here exposure is measured in seconds spent in a designated risk zone. The objective minimizes the duration of the longest uninterrupted visit across feasible paths and timing profiles.
+
+## Exposure labels for a shared search state
+
+At a shared search state, keep a label with two durations. The current duration C measures the ongoing visit. The maximum M records the longest completed or ongoing visit so far. On an inside segment of duration Δt, update C to C + Δt and M to max(M, C) using the updated C. On an outside segment, reset C to zero and carry M forward. Split a segment at the risk-zone boundary before applying these updates.
+
+Suppose two partial paths reach the same state in a risk zone. Label A has C = 3 s and M = 3 s. Label B has C = 1 s and M = 4 s. After the same 2 s continuation inside the zone, A has M = 5 s and B has M = 4 s. This continuation reverses the ordering of the labels by maximum exposure. Retaining both partial paths preserves the alternatives for the search.
+
+Salzman, Hou, and Srinivasa give a related example of history-dependent search in risk zones, using an accumulated cost that rises with the duration of ongoing exposure. [ICAPS 2017 paper](https://ojs.aaai.org/index.php/ICAPS/article/view/13855).
 
 ## Total and consecutive exposure in risk zones
 
@@ -8,7 +16,7 @@ Total exposure is the sum of the time a UAV spends inside risk zones. Longest co
 
 One 4-second visit and two 2-second visits separated by time outside the zones both give 4 seconds of total exposure. Their longest consecutive exposures are 4 seconds and 2 seconds, respectively. On a fixed geometric path, a different speed profile can change both metrics by changing how long the UAV spends in each zone.
 
-[Read the full note](https://17622336232.github.io/continuous-risk-exposure-uav-path-planning/).
+[Read the full note](https://17622336232.github.io/multi-label-path-planning-maximum-continuous-risk-exposure/).
 
 ## Path geometry and timing
 
