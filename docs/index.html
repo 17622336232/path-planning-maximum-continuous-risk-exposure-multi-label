@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="index,follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Multi-Label Path Planning to Minimize Maximum Continuous Risk Exposure</title>
+<title>path planning "maximum" "continuous" risk exposure multi label</title>
 <meta name="description" content="Multi-label path planning for minimizing maximum continuous risk exposure. Track current and longest visits to risk zones in robot and quadrotor planning.">
 
 
@@ -20,11 +20,11 @@ header p {font-size:1.12em;}
 a {color:var(--accent);text-underline-offset:.17em;}
 li {margin-bottom:.7rem;}
 </style>
-<link rel="canonical" href="https://17622336232.github.io/multi-label-path-planning-maximum-continuous-risk-exposure/">
+<link rel="canonical" href="https://17622336232.github.io/path-planning-maximum-continuous-risk-exposure-multi-label/">
 </head>
 <body>
 <main>
-<header><h1>Multi-Label Path Planning to Minimize Maximum Continuous Risk Exposure</h1><p>A multi-label path planner can minimize the maximum continuous risk exposure along a route. Here exposure is measured in seconds spent in a designated risk zone. The objective minimizes the duration of the longest uninterrupted visit across feasible paths and timing profiles.</p></header>
+<header><h1>path planning "maximum" "continuous" risk exposure multi label</h1><p>A multi-label path planner can minimize the maximum continuous risk exposure along a route. Here exposure is measured in seconds spent in a designated risk zone. The objective minimizes the duration of the longest uninterrupted visit across feasible paths and timing profiles.</p></header>
 <section id="exposure-labels"><h2>Exposure labels for a shared search state</h2>
 <p>At a shared search state, keep a label with two durations. The current duration C measures the ongoing visit. The maximum M records the longest completed or ongoing visit so far. On an inside segment of duration Δt, update C to C + Δt and M to max(M, C) using the updated C. On an outside segment, reset C to zero and carry M forward. Split a segment at the risk-zone boundary before applying these updates.</p>
 <p>Suppose two partial paths reach the same state in a risk zone. Label A has C = 3 s and M = 3 s. Label B has C = 1 s and M = 4 s. After the same 2 s continuation inside the zone, A has M = 5 s and B has M = 4 s. This continuation reverses the ordering of the labels by maximum exposure. Retaining both partial paths preserves the alternatives for the search.</p>
