@@ -8,7 +8,7 @@ Total exposure is the sum of the time a UAV spends inside risk zones. Longest co
 
 One 4-second visit and two 2-second visits separated by time outside the zones both give 4 seconds of total exposure. Their longest consecutive exposures are 4 seconds and 2 seconds, respectively. On a fixed geometric path, a different speed profile can change both metrics by changing how long the UAV spends in each zone.
 
-[Read the full note](https://17622336232.github.io/quadrotor-path-timing-notes/).
+[Read the full note](https://17622336232.github.io/continuous-risk-exposure-uav-path-planning/).
 
 ## Path geometry and timing
 
