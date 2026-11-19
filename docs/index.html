@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="robots" content="index,follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quadrotor Path Timing and Continuous Risk Exposure</title>
-<meta name="description" content="How quadrotor path timing affects total and continuous risk exposure in robot path planning, with a timing example and references to published research.">
+<title>Multi-Label Path Planning to Minimize Maximum Continuous Risk Exposure</title>
+<meta name="description" content="Multi-label path planning for minimizing maximum continuous risk exposure. Track current and longest visits to risk zones in robot and quadrotor planning.">
 
 
 <style>
@@ -20,11 +20,15 @@ header p {font-size:1.12em;}
 a {color:var(--accent);text-underline-offset:.17em;}
 li {margin-bottom:.7rem;}
 </style>
-<link rel="canonical" href="https://17622336232.github.io/continuous-risk-exposure-uav-path-planning/">
+<link rel="canonical" href="https://17622336232.github.io/multi-label-path-planning-maximum-continuous-risk-exposure/">
 </head>
 <body>
 <main>
-<header><h1>Quadrotor Path Timing and Continuous Risk Exposure</h1><p>A time law determines how long a quadrotor spends in constrained space. This note compares total exposure with the longest uninterrupted exposure and relates both measures to path timing.</p></header>
+<header><h1>Multi-Label Path Planning to Minimize Maximum Continuous Risk Exposure</h1><p>A multi-label path planner can minimize the maximum continuous risk exposure along a route. Here exposure is measured in seconds spent in a designated risk zone. The objective minimizes the duration of the longest uninterrupted visit across feasible paths and timing profiles.</p></header>
+<section id="exposure-labels"><h2>Exposure labels for a shared search state</h2>
+<p>At a shared search state, keep a label with two durations. The current duration C measures the ongoing visit. The maximum M records the longest completed or ongoing visit so far. On an inside segment of duration Δt, update C to C + Δt and M to max(M, C) using the updated C. On an outside segment, reset C to zero and carry M forward. Split a segment at the risk-zone boundary before applying these updates.</p>
+<p>Suppose two partial paths reach the same state in a risk zone. Label A has C = 3 s and M = 3 s. Label B has C = 1 s and M = 4 s. After the same 2 s continuation inside the zone, A has M = 5 s and B has M = 4 s. This continuation reverses the ordering of the labels by maximum exposure. Retaining both partial paths preserves the alternatives for the search.</p>
+<p>Salzman, Hou, and Srinivasa give a related example of history-dependent search in risk zones, using an accumulated cost that rises with the duration of ongoing exposure. <a href="https://ojs.aaai.org/index.php/ICAPS/article/view/13855">ICAPS 2017 paper</a>.</p></section>
 <section id="geometry"><h2>Path geometry and free space</h2><p>A path p(s) specifies a curve in space using an ordered parameter s. Collision checking compares the curve and the vehicle footprint against the environment model. A safe corridor bounds the region in which a trajectory can be planned. Its construction and the collision model determine how much clearance the constraints provide.</p><p>A path through a narrow opening can be geometrically feasible even when some ways of traversing it demand more acceleration than the vehicle can produce. The time assigned to the maneuver is therefore part of evaluating the executable flight.</p></section>
 <section id="timing"><h2>Time parameterization</h2><p>A time law s(t) turns a geometric path into a trajectory p(s(t)). Velocity is the path tangent multiplied by the rate of progress. Acceleration has contributions from changing progress rate and from bending along the path. A fixed curve can support different speeds at different positions under the same acceleration limits.</p><p>Pham and Pham use reachability analysis to compute controllable and reachable sets along a discretized path. Their work illustrates time optimal path parameterization with a prescribed geometric path.</p></section>
 <section id="optimization"><h2>Spatial and temporal trajectory optimization</h2><p>A trajectory optimizer can vary spatial parameters and segment durations together. Changing the shape can improve clearance or reduce curvature. Changing durations alters the time derivatives used to check velocity, acceleration and other dynamic constraints. The optimizer needs a model of the free space and the relevant vehicle constraints.</p><p>Wang and colleagues present a multicopter framework that uses a compact trajectory representation with spatial and temporal variation. Their formulation supports geometric conditions and several types of dynamic constraints.</p></section>
